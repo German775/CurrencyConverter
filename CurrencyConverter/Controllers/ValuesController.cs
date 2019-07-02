@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using CurrencyConverter.Models;
 
 namespace CurrencyConverter.Controllers
 {
@@ -10,11 +12,18 @@ namespace CurrencyConverter.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        Context dataBase;
+        public ValuesController(Context context)
+        {
+            dataBase = context;
+        }
+
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public IEnumerable<Person> Get()
         {
-            return new string[] { "value1", "value2" };
+            IEnumerable<Person> data = dataBase.Persons;
+            return data;
         }
 
         // GET api/values/5
@@ -24,10 +33,10 @@ namespace CurrencyConverter.Controllers
             return "value";
         }
 
-        // POST api/values
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] Person person)
         {
+
         }
 
         // PUT api/values/5
